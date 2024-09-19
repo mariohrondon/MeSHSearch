@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "env": {
+                "NCBI_API_KEY": "8ebf817356ed286025790c223adf4e06ca08"
+            }
+        }
+    ]
+}
