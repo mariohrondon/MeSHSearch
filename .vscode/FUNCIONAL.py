@@ -21,16 +21,17 @@ api_key = os.getenv('NCBI_API_KEY')
 fetch = PubMedFetcher(api_key=api_key)
 
 #chatgtp codigo de busqueda
-def buscar_y_exportar_a_csv(termino_busqueda, max_resultados=10, archivo_csv="resultados_ncbi.csv"):
+def buscar_y_exportar_a_csv(termino_busqueda, max_resultados=90000, archivo_csv="resultados_ncbi.csv"):
     try:
         # Realizar la búsqueda en PubMed
         pmids = fetch.pmids_for_query(termino_busqueda, retmax=max_resultados)
+        print(f"Total de resultados obtenidos: {len(pmids)}")
 
         # Crear o abrir el archivo CSV para escribir los resultados
         with open(archivo_csv, mode='w', newline='', encoding='utf-8') as archivo:
             escritor_csv = csv.writer(archivo)
             # Escribir encabezados
-            escritor_csv.writerow(['Titulo', 'Autor(es)', 'DOI', 'URL', 'Journal', 'NCBIID'])
+            escritor_csv.writerow(['Titulo', 'Autor(es)', 'DOI', 'URL', 'Journal', 'NCBIID', 'Citation', 'PMCID', 'Año de Publicación'])
 
             # Procesar cada PMID
             for pmid in pmids:
@@ -44,9 +45,11 @@ def buscar_y_exportar_a_csv(termino_busqueda, max_resultados=10, archivo_csv="re
                     url = articulo.url if articulo.url else f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
                     journal = articulo.journal if articulo.journal else "N/A"
                     ncbiid = pmid
-                    
+                    citation = articulo.citation if articulo.citation else "N/A"
+                    pmcid = getattr(articulo, 'pmicd', 'N/A')  # Verificar si el artículo tiene PMCID
+                    year_of_publication = articulo.year if articulo.year else "N/A"
                     # Escribir fila en CSV
-                    escritor_csv.writerow([titulo, autores, doi, url, journal, ncbiid])
+                    escritor_csv.writerow([titulo, autores, doi, url, journal, ncbiid, citation, pmcid, year_of_publication])
                 except Exception as e:
                     print(f"Error al procesar el artículo con PMID {pmid}: {e}")
         
@@ -56,5 +59,5 @@ def buscar_y_exportar_a_csv(termino_busqueda, max_resultados=10, archivo_csv="re
         print(f"Error al realizar la búsqueda: {e}")
 
 # Ejemplo de uso:
-termino_de_busqueda = '((((all[sb] NOT(animals [mh] NOT humans[mh] AND(microbiota[mh]))AND(female genitalia[MeSH Terms]) ) AND (("2010/07/01"[Date - Publication]: "2024/07/21"[Date - Publication]))) NOT (Review[Publication Type]))'
-buscar_y_exportar_a_csv(termino_de_busqueda, max_resultados=1080)
+termino_de_busqueda = '((((all[sb] NOT(animals [mh] NOT humans [mh])) AND (microbiota [mh])) AND (female genitalia[MeSH Terms]) ) AND (("2010/07/01"[Date - Publication] : "2024/07/21"[Date - Publication]))) NOT (Review[Publication Type])'
+buscar_y_exportar_a_csv(termino_de_busqueda, max_resultados=900000)
