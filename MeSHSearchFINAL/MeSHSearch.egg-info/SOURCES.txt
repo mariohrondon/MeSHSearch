@@ -1,0 +1,7 @@
+setup.py
+MeSHSearch.egg-info/PKG-INFO
+MeSHSearch.egg-info/SOURCES.txt
+MeSHSearch.egg-info/dependency_links.txt
+MeSHSearch.egg-info/entry_points.txt
+MeSHSearch.egg-info/requires.txt
+MeSHSearch.egg-info/top_level.txt

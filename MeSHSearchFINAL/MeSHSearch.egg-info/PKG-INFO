@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: MeSHSearch
+Version: 0.1.0
+Summary: Paquete para buscar avanzada de artículos en NCBI, mediante terminos MeSH y exportar a CSV
+Home-page: https://github.com/mariohrondon/MeSHSearch
+Author: Mario
+Author-email: mariohrondonn@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Requires-Dist: metapub
+Requires-Dist: pandas
