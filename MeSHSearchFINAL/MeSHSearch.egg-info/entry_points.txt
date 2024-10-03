@@ -1,0 +1,2 @@
+[console_scripts]
+buscar-ncbi = Paquete.main:cli
